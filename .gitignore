@@ -1,0 +1,13 @@
+# Pastas de Build e Executáveis
+build/
+
+# Arquivos temporários e objetos compilados
+*.obj
+*.o
+*.exe
+*.out
+
+# Arquivos de log e configurações locais do editor
+.vscode/
+.idea/
+*.log

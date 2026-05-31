@@ -1,0 +1,15 @@
+inicio
+ inteiro:a;
+ inteiro:c;
+ imprima (“digite um valor para a:”);
+ leia(a);
+ se a = 5 então
+  escreva (“igual a 5”);
+ senão
+  escreva (“diferente de 5”);
+ fim_se
+ a <- a + 10;
+ se a >= 15 E não (a <= 5) então
+  c <- 42;
+ fim_se
+fim
