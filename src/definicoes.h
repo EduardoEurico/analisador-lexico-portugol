@@ -39,6 +39,7 @@ typedef enum {
 typedef struct {
     TokenType code;
     int tablePosition; 
+    char lexema[100];
 } Token;
 
 // Variáveis globais
@@ -46,6 +47,7 @@ extern FILE *arquivo_fonte;
 
 // Protótipos de funções
 Token getToken();
+const char* nomeToken(TokenType type);
 int verificaPalavraReservada(char* lexema);
 int inserirTabelaSimbolos(char* lexema);
 void imprimirTabelaSimbolos();

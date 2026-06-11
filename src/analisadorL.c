@@ -5,6 +5,7 @@ FILE *arquivo_fonte;
 Token getToken() {
     Token t;
     t.tablePosition = -1;
+    memset(t.lexema, 0, sizeof(t.lexema));
     char c = fgetc(arquivo_fonte);
 
     // Ignorar espaços em branco e quebras de linha
@@ -15,6 +16,7 @@ Token getToken() {
     // Identificar Fim de Arquivo
     if (c == EOF) {
         t.code = TOKEN_EOF;
+        strcpy(t.lexema, "EOF");
         return t;
     }
 
@@ -35,6 +37,7 @@ Token getToken() {
         } else {
             t.code = TOKEN_STRING;
         }
+        strcpy(t.lexema, lexema);
         return t;
     }
     
@@ -49,6 +52,7 @@ Token getToken() {
                 char ch = fgetc(arquivo_fonte);
                 if (ch == EOF) {
                     t.code = TOKEN_ERRO;
+                    strcpy(t.lexema, lexema);
                     return t;
                 }
                 if ((unsigned char)ch == 0xE2) {
@@ -71,6 +75,7 @@ Token getToken() {
             }
             lexema[i] = '\0';
             t.code = TOKEN_STRING;
+            strcpy(t.lexema, lexema);
             return t;
         } else {
             ungetc(next2, arquivo_fonte);
@@ -100,6 +105,7 @@ Token getToken() {
             t.code = TOKEN_ID; 
             t.tablePosition = inserirTabelaSimbolos(lexema);
         }
+        strcpy(t.lexema, lexema);
         return t;
     }
     
@@ -116,27 +122,30 @@ Token getToken() {
         lexema[i] = '\0';
         ungetc(c, arquivo_fonte);
         t.code = TOKEN_NUMERO;
+        strcpy(t.lexema, lexema);
         return t;
     }
 
     // Identificar operadores e pontuação
     switch (c) {
-        case '+': t.code = TOKEN_SOMA; return t;
-        case '-': t.code = TOKEN_SUB; return t;
-        case '*': t.code = TOKEN_MULT; return t;
-        case '/': t.code = TOKEN_DIV; return t;
-        case '(': t.code = TOKEN_ABRE_PAR; return t;
-        case ')': t.code = TOKEN_FECHA_PAR; return t;
-        case ';': t.code = TOKEN_PONTO_VIRGULA; return t;
-        case ':': t.code = TOKEN_DOIS_PONTOS; return t;
-        case '=': t.code = TOKEN_IGUAL; return t;
+        case '+': t.code = TOKEN_SOMA; strcpy(t.lexema, "+"); return t;
+        case '-': t.code = TOKEN_SUB; strcpy(t.lexema, "-"); return t;
+        case '*': t.code = TOKEN_MULT; strcpy(t.lexema, "*"); return t;
+        case '/': t.code = TOKEN_DIV; strcpy(t.lexema, "/"); return t;
+        case '(': t.code = TOKEN_ABRE_PAR; strcpy(t.lexema, "("); return t;
+        case ')': t.code = TOKEN_FECHA_PAR; strcpy(t.lexema, ")"); return t;
+        case ';': t.code = TOKEN_PONTO_VIRGULA; strcpy(t.lexema, ";"); return t;
+        case ':': t.code = TOKEN_DOIS_PONTOS; strcpy(t.lexema, ":"); return t;
+        case '=': t.code = TOKEN_IGUAL; strcpy(t.lexema, "="); return t;
         case '>': {
             char next = fgetc(arquivo_fonte);
             if (next == '=') {
                 t.code = TOKEN_MAIOR_IGUAL;
+                strcpy(t.lexema, ">=");
             } else {
                 ungetc(next, arquivo_fonte);
                 t.code = TOKEN_MAIOR;
+                strcpy(t.lexema, ">");
             }
             return t;
         }
@@ -144,18 +153,24 @@ Token getToken() {
             char next = fgetc(arquivo_fonte);
             if (next == '=') {
                 t.code = TOKEN_MENOR_IGUAL;
+                strcpy(t.lexema, "<=");
             } else if (next == '>') {
                 t.code = TOKEN_DIFERENTE;
+                strcpy(t.lexema, "<>");
             } else if (next == '-') {
                 t.code = TOKEN_ATRIBUICAO;
+                strcpy(t.lexema, "<-");
             } else {
                 ungetc(next, arquivo_fonte);
                 t.code = TOKEN_MENOR;
+                strcpy(t.lexema, "<");
             }
             return t;
         }
     }
 
     t.code = TOKEN_ERRO;
+    t.lexema[0] = c;
+    t.lexema[1] = '\0';
     return t;
 }

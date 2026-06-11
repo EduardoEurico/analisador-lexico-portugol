@@ -33,8 +33,8 @@ char tabelaSimbolos[MAX_SIMBOLOS][MAX_COMPRIMENTO_LEXEMA];
 int contagemSimbolos = 0;
 
 int inserirTabelaSimbolos(char* lexema) {
-
-    for (int i = 0; i < contagemSimbolos; i++) {
+    int i;
+    for (i = 0; i < contagemSimbolos; i++) {
         if (strcmp(tabelaSimbolos[i], lexema) == 0) {
             return i; 
         }
@@ -52,9 +52,54 @@ int inserirTabelaSimbolos(char* lexema) {
 
 // Função para imprimir a tabela de símbolos
 void imprimirTabelaSimbolos() {
+    int i;
     printf("Posicao | Lexema\n");
     printf("----------------\n");
-    for (int i = 0; i < contagemSimbolos; i++) {
+    for (i = 0; i < contagemSimbolos; i++) {
         printf("%7d | %s\n", i, tabelaSimbolos[i]);
+    }
+}
+
+// Retorna o nome amigável do Token
+const char* nomeToken(TokenType type) {
+    switch (type) {
+        case TOKEN_INICIO: return "INICIO";
+        case TOKEN_FIM: return "FIM";
+        case TOKEN_INTEIRO: return "INTEIRO";
+        case TOKEN_LEIA: return "LEIA";
+        case TOKEN_IMPRIMA: return "IMPRIMA";
+        case TOKEN_ESCREVA: return "ESCREVA";
+        case TOKEN_SE: return "SE";
+        case TOKEN_ENTAO: return "ENTAO";
+        case TOKEN_SENAO: return "SENAO";
+        case TOKEN_FIM_SE: return "FIM_SE";
+        case TOKEN_PARA: return "PARA";
+        case TOKEN_ATE: return "ATE";
+        case TOKEN_PASSO: return "PASSO";
+        case TOKEN_FIM_PARA: return "FIM_PARA";
+        case TOKEN_E: return "OPERADOR_LOGICO_E";
+        case TOKEN_OU: return "OPERADOR_LOGICO_OU";
+        case TOKEN_NAO: return "OPERADOR_LOGICO_NAO";
+        case TOKEN_SOMA: return "OPERADOR_SOMA";
+        case TOKEN_SUB: return "OPERADOR_SUB";
+        case TOKEN_MULT: return "OPERADOR_MULT";
+        case TOKEN_DIV: return "OPERADOR_DIV";
+        case TOKEN_ATRIBUICAO: return "OPERADOR_ATRIBUICAO";
+        case TOKEN_MAIOR: return "OPERADOR_MAIOR";
+        case TOKEN_MENOR: return "OPERADOR_MENOR";
+        case TOKEN_MAIOR_IGUAL: return "OPERADOR_MAIOR_IGUAL";
+        case TOKEN_MENOR_IGUAL: return "OPERADOR_MENOR_IGUAL";
+        case TOKEN_IGUAL: return "OPERADOR_IGUAL";
+        case TOKEN_DIFERENTE: return "OPERADOR_DIFERENTE";
+        case TOKEN_ABRE_PAR: return "DELIMITADOR_ABRE_PAR";
+        case TOKEN_FECHA_PAR: return "DELIMITADOR_FECHA_PAR";
+        case TOKEN_PONTO_VIRGULA: return "PONTO_VIRGULA";
+        case TOKEN_DOIS_PONTOS: return "DOIS_PONTOS";
+        case TOKEN_ID: return "IDENTIFICADOR";
+        case TOKEN_NUMERO: return "NUMERO";
+        case TOKEN_STRING: return "STRING";
+        case TOKEN_EOF: return "FIM_DE_ARQUIVO";
+        case TOKEN_ERRO: return "ERRO";
+        default: return "DESCONHECIDO";
     }
 }
